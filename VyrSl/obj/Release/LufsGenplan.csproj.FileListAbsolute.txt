@@ -1,0 +1,7 @@
+D:\Work\VyrSl\VyrSl\bin\Release\LufsGenplan.dll
+D:\Work\VyrSl\VyrSl\bin\Release\LufsGenplan.pdb
+D:\Work\VyrSl\VyrSl\bin\Release\AcadUtils.pdb
+D:\Work\VyrSl\VyrSl\obj\Release\ResolveAssemblyReference.cache
+D:\Work\VyrSl\VyrSl\obj\Release\LufsGenplan.csproj.ResolveComReference.cache
+D:\Work\VyrSl\VyrSl\obj\Release\LufsGenplan.dll
+D:\Work\VyrSl\VyrSl\obj\Release\LufsGenplan.pdb

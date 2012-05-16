@@ -1,0 +1,1 @@
+CreateXmlConfig.exe %CD%\

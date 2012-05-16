@@ -1,0 +1,9 @@
+D:\Work\VyrSl\CreateXmlConfig\bin\Release\CreateXmlConfig.exe.config
+D:\Work\VyrSl\CreateXmlConfig\bin\Release\CreateXmlConfig.exe
+D:\Work\VyrSl\CreateXmlConfig\bin\Release\CreateXmlConfig.pdb
+D:\Work\VyrSl\VyrSl\bin\Release\CreateXmlConfig.exe.config
+D:\Work\VyrSl\VyrSl\bin\Release\CreateXmlConfig.exe
+D:\Work\VyrSl\VyrSl\bin\Release\CreateXmlConfig.pdb
+D:\Work\VyrSl\CreateXmlConfig\obj\x86\Release\ResolveAssemblyReference.cache
+D:\Work\VyrSl\CreateXmlConfig\obj\x86\Release\CreateXmlConfig.exe
+D:\Work\VyrSl\CreateXmlConfig\obj\x86\Release\CreateXmlConfig.pdb

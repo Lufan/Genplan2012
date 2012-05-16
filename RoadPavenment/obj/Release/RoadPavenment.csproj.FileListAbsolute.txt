@@ -1,0 +1,14 @@
+D:\Work\VyrSl\RoadPavenment\bin\Release\RoadPavenment.dll
+D:\Work\VyrSl\RoadPavenment\bin\Release\RoadPavenment.pdb
+D:\Work\VyrSl\RoadPavenment\bin\Release\acdbmgd.dll
+D:\Work\VyrSl\RoadPavenment\bin\Release\acmgd.dll
+D:\Work\VyrSl\RoadPavenment\bin\Release\CivilUtils.dll
+D:\Work\VyrSl\RoadPavenment\bin\Release\CivilUtils.pdb
+D:\Work\VyrSl\VyrSl\bin\Release\RoadPavenment.dll
+D:\Work\VyrSl\VyrSl\bin\Release\RoadPavenment.pdb
+D:\Work\VyrSl\RoadPavenment\obj\Release\ResolveAssemblyReference.cache
+D:\Work\VyrSl\RoadPavenment\obj\Release\RoadPavenment.RoadPavenment.resources
+D:\Work\VyrSl\RoadPavenment\obj\Release\GenerateResource-ResGen.read.1.tlog
+D:\Work\VyrSl\RoadPavenment\obj\Release\GenerateResource-ResGen.write.1.tlog
+D:\Work\VyrSl\RoadPavenment\obj\Release\RoadPavenment.dll
+D:\Work\VyrSl\RoadPavenment\obj\Release\RoadPavenment.pdb

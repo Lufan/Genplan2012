@@ -1,0 +1,15 @@
+D:\Work\VyrSl\CivilUtils\bin\Release\CivilUtils.dll
+D:\Work\VyrSl\CivilUtils\bin\Release\CivilUtils.pdb
+D:\Work\VyrSl\CivilUtils\bin\Release\AcadUtils.dll
+D:\Work\VyrSl\CivilUtils\bin\Release\acdbmgd.dll
+D:\Work\VyrSl\CivilUtils\bin\Release\acmgd.dll
+D:\Work\VyrSl\CivilUtils\bin\Release\AecBaseMgd.dll
+D:\Work\VyrSl\CivilUtils\bin\Release\AeccDbMgd.dll
+D:\Work\VyrSl\CivilUtils\bin\Release\AcadUtils.pdb
+D:\Work\VyrSl\CivilUtils\bin\Release\AecBaseMgd.xml
+D:\Work\VyrSl\CivilUtils\bin\Release\ru-RU\AecBaseMgd.resources.dll
+D:\Work\VyrSl\VyrSl\bin\Release\CivilUtils.dll
+D:\Work\VyrSl\VyrSl\bin\Release\CivilUtils.pdb
+D:\Work\VyrSl\CivilUtils\obj\Release\ResolveAssemblyReference.cache
+D:\Work\VyrSl\CivilUtils\obj\Release\CivilUtils.dll
+D:\Work\VyrSl\CivilUtils\obj\Release\CivilUtils.pdb

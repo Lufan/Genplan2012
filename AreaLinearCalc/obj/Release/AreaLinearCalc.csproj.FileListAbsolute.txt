@@ -1,0 +1,12 @@
+D:\Work\VyrSl\AreaLinearCalc\bin\Release\AreaLinearCalc.dll
+D:\Work\VyrSl\AreaLinearCalc\bin\Release\AreaLinearCalc.pdb
+D:\Work\VyrSl\AreaLinearCalc\bin\Release\acdbmgd.dll
+D:\Work\VyrSl\AreaLinearCalc\bin\Release\acmgd.dll
+D:\Work\VyrSl\VyrSl\bin\Release\AreaLinearCalc.dll
+D:\Work\VyrSl\VyrSl\bin\Release\AreaLinearCalc.pdb
+D:\Work\VyrSl\AreaLinearCalc\obj\Release\ResolveAssemblyReference.cache
+D:\Work\VyrSl\AreaLinearCalc\obj\Release\AreaLinearCalc.AreaLinearCalc.resources
+D:\Work\VyrSl\AreaLinearCalc\obj\Release\GenerateResource-ResGen.read.1.tlog
+D:\Work\VyrSl\AreaLinearCalc\obj\Release\GenerateResource-ResGen.write.1.tlog
+D:\Work\VyrSl\AreaLinearCalc\obj\Release\AreaLinearCalc.dll
+D:\Work\VyrSl\AreaLinearCalc\obj\Release\AreaLinearCalc.pdb

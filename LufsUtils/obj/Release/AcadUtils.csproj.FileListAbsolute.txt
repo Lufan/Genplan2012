@@ -1,0 +1,9 @@
+D:\Work\VyrSl\LufsUtils\bin\Release\AcadUtils.dll
+D:\Work\VyrSl\LufsUtils\bin\Release\AcadUtils.pdb
+D:\Work\VyrSl\LufsUtils\bin\Release\acdbmgd.dll
+D:\Work\VyrSl\LufsUtils\bin\Release\acmgd.dll
+D:\Work\VyrSl\VyrSl\bin\Release\AcadUtils.dll
+D:\Work\VyrSl\VyrSl\bin\Release\AcadUtils.pdb
+D:\Work\VyrSl\LufsUtils\obj\Release\ResolveAssemblyReference.cache
+D:\Work\VyrSl\LufsUtils\obj\Release\AcadUtils.dll
+D:\Work\VyrSl\LufsUtils\obj\Release\AcadUtils.pdb
