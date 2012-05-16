@@ -42,6 +42,7 @@
       <HintPath>H:\Проектир\БАД\Credo.usr\подсчет объемов работ\acad2010\acmgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Data" />
