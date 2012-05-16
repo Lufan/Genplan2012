@@ -209,7 +209,7 @@ namespace LufsGenplan
                 using (var tr = AcadApp.StartTransaction())
                 {
                     DBDictionary namedObjectDict = db.NamedObjectsDictionaryId.GetObject(OpenMode.ForRead) as DBDictionary;
-                    return namedObjectDict.Contains("Root");
+                    return (namedObjectDict.Contains("Root") && Autodesk.AutoCAD.ApplicationServices.Application.MainWindow.Text.Contains("AutoCAD Civil 3D"));
                 }
             }
             catch (Autodesk.AutoCAD.Runtime.Exception ex)

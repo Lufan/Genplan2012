@@ -63,7 +63,8 @@ namespace LufsGenplan
 
                 //Do update, that take effect with next time autocad execute
                 th = new System.Threading.Thread(new System.Threading.ThreadStart(DoUpdate));
-                th.Start();                
+                th.Start();
+                //DoUpdate();
             }
             catch (System.Exception ex)
             {
@@ -143,12 +144,81 @@ namespace LufsGenplan
                 if (filesTobeCopiedFromPlugin.Count != 0)
                 {
                     CopyFiles(filesTobeCopiedFromPlugin, pluginDir);
-                } 
+                }
+
+                var filesTobeRemovedFromRoot = new List<System.IO.FileInfo>();
+
+                foreach (var file in currentRootFiles)
+                {
+                    if (AlreadyDonotHaveThisFile(file, remoteRootFiles))
+                    {
+                        filesTobeRemovedFromRoot.Add(file);
+                    }
+                }
+
+                var filesTobeRemovedFromPlugin = new List<System.IO.FileInfo>();
+
+                foreach (var file in currentPluginFiles)
+                {
+                    if (AlreadyDonotHaveThisFile(file, remotePluginFiles))
+                    {
+                        filesTobeRemovedFromPlugin.Add(file);
+                    }
+                }
+
+                if (filesTobeRemovedFromRoot.Count != 0)
+                {
+                    RemoveFiles(filesTobeRemovedFromRoot);
+                }
+
+                if (filesTobeRemovedFromPlugin.Count != 0)
+                {
+                    RemoveFiles(filesTobeRemovedFromPlugin);
+                }
             }
             catch (Autodesk.AutoCAD.Runtime.Exception ex)
             {
                 AcadApp.AcaEd.WriteMessage("ERROR: Commands.CheckUpdate()\n" + ex + "\n");
             }
+        }
+
+        private Boolean RemoveFiles(List<System.IO.FileInfo> files)
+        {
+            try
+            {
+                foreach (var file in files)
+                {
+                    if (file.Exists)
+                    {
+                        try
+                        {
+                            System.IO.File.Delete(file.FullName);
+                        }
+                        catch (System.Exception)
+                        {
+                            //AcadApp.AcaEd.WriteMessage("WARNING: Can not delete " + file.Name + " try to rename, and delete at next session.\n");
+                            try
+                            {
+                                System.IO.File.Move(file.FullName, file.FullName.Substring(0, file.FullName.Length - 3) + "old");
+                            }
+                            catch (System.Exception ex2)
+                            {
+                                AcadApp.AcaEd.WriteMessage("ERROR: Move " + file.FullName + " -> " + file.FullName.Substring(0, file.FullName.Length - 3) + "old" + "\n" + ex2 + "\n");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        AcadApp.AcaEd.WriteMessage("DEBUG: " + file.FullName + " do not exist.\n");
+                    }
+                }
+                return true;
+            }
+            catch (System.Exception ex)
+            {
+                AcadApp.AcaEd.WriteMessage("ERROR: Commands.RemoveFiles()\n" + ex + "\n");
+            }
+            return false;
         }
 
         private Boolean CopyFiles(List<System.IO.FileInfo> files, String targetDirectory)
@@ -212,6 +282,19 @@ namespace LufsGenplan
                 }
             }
             return false;
+        }
+
+        private Boolean AlreadyDonotHaveThisFile(System.IO.FileInfo file, List<System.IO.FileInfo> currentFiles)
+        {
+            Boolean result = true;
+            foreach (var curFile in currentFiles)
+            {
+                if ((curFile.Name == file.Name))
+                {
+                    result = false;
+                }
+            }
+            return result;
         }
 
         private List<System.IO.FileInfo> GetFileList(String folderPath)
