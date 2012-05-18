@@ -274,12 +274,19 @@ namespace LufsGenplan
 
         private Boolean AlreadyHaveThisFile(System.IO.FileInfo file, List<System.IO.FileInfo> currentFiles)
         {
-            foreach (var curFile in currentFiles)
+            try
             {
-                if ((curFile.Name == file.Name) && (curFile.LastWriteTime >= file.LastWriteTime))
+                foreach (var curFile in currentFiles)
                 {
-                    return true;
+                    if ((curFile.Name == file.Name) && (curFile.LastWriteTime >= file.LastWriteTime))
+                    {
+                        return true;
+                    }
                 }
+            }
+            catch (System.Exception ex)
+            {
+                AcadApp.AcaEd.WriteMessage("ERROR: Commands.AlreadyHaveThisFile " + ex + "\n");
             }
             return false;
         }
@@ -287,12 +294,19 @@ namespace LufsGenplan
         private Boolean AlreadyDonotHaveThisFile(System.IO.FileInfo file, List<System.IO.FileInfo> currentFiles)
         {
             Boolean result = true;
-            foreach (var curFile in currentFiles)
+            try
             {
-                if ((curFile.Name == file.Name))
+                foreach (var curFile in currentFiles)
                 {
-                    result = false;
+                    if ((curFile.Name == file.Name))
+                    {
+                        result = false;
+                    }
                 }
+            }
+            catch (System.Exception ex)
+            {
+                AcadApp.AcaEd.WriteMessage("ERROR: Commands.AlreadyDonotHaveThisFile " + ex + "\n");
             }
             return result;
         }

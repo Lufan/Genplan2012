@@ -22,26 +22,58 @@ namespace LufsGenplan
         {
             get
             {
-                return Application.DocumentManager.MdiActiveDocument;
+                try
+                {
+                    return Application.DocumentManager.MdiActiveDocument;
+                }
+                catch (System.Exception ex)
+                {
+                    AcadApp.AcaEd.WriteMessage("\nERROR: AcadApp.AcaDoc " + ex.Message + "\n");
+                }
+                return null;
             }
         }
         public static Autodesk.AutoCAD.DatabaseServices.Database AcaDb
         {
             get
             {
-                return HostApplicationServices.WorkingDatabase;
+                try
+                {
+                    return HostApplicationServices.WorkingDatabase;
+                }
+                catch (System.Exception ex)
+                {
+                    AcadApp.AcaEd.WriteMessage("\nERROR: AcadApp.AcaDb " + ex.Message + "\n");
+                }
+                return null;
             }
         }
         public static Autodesk.AutoCAD.EditorInput.Editor AcaEd
         {
             get
             {
+                try
+                {
                 return AcaDoc.Editor;
+                }
+                catch (System.Exception ex)
+                {
+                    AcadApp.AcaEd.WriteMessage("\nERROR: AcadApp.AcaEd " + ex.Message + "\n");
+                }
+                return null;
             }
         }
         public static Autodesk.AutoCAD.DatabaseServices.Transaction StartTransaction()
         {
-            return AcaDb.TransactionManager.StartTransaction();
+            try
+            {
+                return AcaDb.TransactionManager.StartTransaction();
+            }
+            catch (System.Exception ex)
+            {
+                AcadApp.AcaEd.WriteMessage("\nERROR: AcadApp.StartTransaction() " + ex.Message + "\n");
+            }
+            return null;
         }
 
         /// <summary>
@@ -50,8 +82,16 @@ namespace LufsGenplan
         /// <returns>Current drawing's name</returns>
         public static String GetFileName()
         {
-            var hs = HostApplicationServices.Current;
-            return hs.FindFile(AcaDoc.Name, AcaDoc.Database, FindFileHint.Default);
+            try
+            {
+                var hs = HostApplicationServices.Current;
+                return hs.FindFile(AcaDoc.Name, AcaDoc.Database, FindFileHint.Default);
+            }
+            catch (System.Exception ex)
+            {
+                AcadApp.AcaEd.WriteMessage("\nERROR: AcadApp.StartTransaction() " + ex.Message + "\n");
+            }
+            return null;
         }
 
         public static Autodesk.AutoCAD.Colors.Color GetColorByLayer(ObjectId layer)

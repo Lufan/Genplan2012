@@ -66,21 +66,28 @@ namespace LufsGenplan
 
         public MarkingCalc()
         {
-            InitializeComponent();
-            //Set current config file name
-            configFileName = SetCurrentConfigFile();
+            try
+            {
+                InitializeComponent();
+                //Set current config file name
+                configFileName = SetCurrentConfigFile();
 
-            LoadMarkingType(configFileName);
+                LoadMarkingType(configFileName);
 
-            SetcbCategoryItems();
-            cbCategory.SelectedIndex = 0;
-            CurrentCategory = cbCategory.Text;
+                SetcbCategoryItems();
+                cbCategory.SelectedIndex = 0;
+                CurrentCategory = cbCategory.Text;
 
-            SetcbMashtItems();
-            cbMasht.SelectedIndex = 6;
-            CurrentMasht = cbMasht.Text;
+                SetcbMashtItems();
+                cbMasht.SelectedIndex = 6;
+                CurrentMasht = cbMasht.Text;
 
-            SetOverrule();
+                SetOverrule();
+            }
+            catch (Exception ex)
+            {
+                LufsGenplan.AcadApp.AcaEd.WriteMessage("\nERROR: MarkingCalc.MarkingCalc() " + ex + "\n");
+            }
         }
 
         public static String ConfigName
@@ -111,25 +118,39 @@ namespace LufsGenplan
 
         private void SetcbMashtItems()
         {
-            String[] items = { "1:1", "1:10", "1:20", "1:50", "1:100", "1:200", "1:500", "1:1000", "1:2000", "1:5000" };
-            foreach (var item in items)
+            try
             {
-                cbMasht.Items.Add(item);
+                String[] items = { "1:1", "1:10", "1:20", "1:50", "1:100", "1:200", "1:500", "1:1000", "1:2000", "1:5000" };
+                foreach (var item in items)
+                {
+                    cbMasht.Items.Add(item);
+                }
+            }
+            catch (Exception ex)
+            {
+                LufsGenplan.AcadApp.AcaEd.WriteMessage("\nERROR: MarkingCalc.SetcbMashtItems() " + ex + "\n");
             }
         }
 
         private void SetcbCategoryItems()
         {
-            foreach (var item in listOfTypes)
+            try
             {
-                if (item.EntityType == RazmType.typeOfEntity.Line || item.EntityType == RazmType.typeOfEntity.DoubleLineCenter || item.EntityType == RazmType.typeOfEntity.DoubleLineSide)
+                foreach (var item in listOfTypes)
                 {
-                    foreach (var category in item.CategoryData)
+                    if (item.EntityType == RazmType.typeOfEntity.Line || item.EntityType == RazmType.typeOfEntity.DoubleLineCenter || item.EntityType == RazmType.typeOfEntity.DoubleLineSide)
                     {
-                        cbCategory.Items.Add(category.Category);
+                        foreach (var category in item.CategoryData)
+                        {
+                            cbCategory.Items.Add(category.Category);
+                        }
+                        return;
                     }
-                    return;
                 }
+            }
+            catch (Exception ex)
+            {
+                LufsGenplan.AcadApp.AcaEd.WriteMessage("\nERROR: MarkingCalc.SetcbCategoryItems() " + ex + "\n");
             }
         }
 
@@ -148,10 +169,15 @@ namespace LufsGenplan
                         }
                     }
 
-                    _drawOverrule = new MarkingDarawOverrule(lineTypesOfDoubleLines, OFFSET);
-                    Autodesk.AutoCAD.Runtime.Overrule.AddOverrule(Autodesk.AutoCAD.Runtime.RXObject.GetClass(typeof(Autodesk.AutoCAD.DatabaseServices.Polyline)), _drawOverrule, false);
-                    Autodesk.AutoCAD.Runtime.Overrule.Overruling = true;
-                    AcadApp.AcaEd.Regen();
+                    _drawOverrule = MarkingDarawOverrule.GetMarkingDarawOverrule(lineTypesOfDoubleLines, OFFSET);
+                    
+                    if (_drawOverrule != null)
+                    {
+                        Autodesk.AutoCAD.GraphicsInterface.DrawableOverrule.Overruling = true;
+                        Autodesk.AutoCAD.DatabaseServices.ObjectOverrule.AddOverrule(Autodesk.AutoCAD.Runtime.RXObject.GetClass(typeof(Autodesk.AutoCAD.DatabaseServices.Polyline)), _drawOverrule, false);
+                        Autodesk.AutoCAD.Runtime.Overrule.Overruling = true;
+                        AcadApp.AcaEd.Regen();
+                    }
                 }
             }
             catch (Exception ex)
@@ -216,23 +242,32 @@ namespace LufsGenplan
 
         private Double GetCurWidth(String razmType, String category)
         {
-            Double result = 1.0d; // For the Area types catData is empty and function return 1.0d;
-            foreach (var item in listOfTypes)
+            try
             {
-                if (razmType == item.Type)
+                Double result = 1.0d; // For the Area types catData is empty and function return 1.0d;
+                foreach (var item in listOfTypes)
                 {
-                    foreach (var catData in item.CategoryData)
+                    if (razmType == item.Type)
                     {
-                        if (category == catData.Category)
+                        foreach (var catData in item.CategoryData)
                         {
-                            result = catData.Width;
-                            return result;
+                            if (category == catData.Category)
+                            {
+                                result = catData.Width;
+                                return result;
+                            }
                         }
                     }
                 }
-            }
 
-            return result;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                AcadApp.AcaEd.WriteMessage("ERROR: MarkingCalc.GetCurWidth() " + ex + "\n");
+                this.BtSolut.Enabled = false;
+            }
+            return 0.0d;
         }
 
         private void DisplayResult()
@@ -409,38 +444,52 @@ namespace LufsGenplan
 
         private Double GetLength(Autodesk.AutoCAD.DatabaseServices.DBObject dbobj)
         {
-            Double result = 0.0d;
+            try
+            {
+                Double result = 0.0d;
 
-            if (dbobj.GetType().Name == "Polyline")
-            {
-                result = (dbobj as Autodesk.AutoCAD.DatabaseServices.Polyline).Length;
+                if (dbobj.GetType().Name == "Polyline")
+                {
+                    result = (dbobj as Autodesk.AutoCAD.DatabaseServices.Polyline).Length;
+                }
+                else if (dbobj.GetType().Name == "Line")
+                {
+                    result = (dbobj as Autodesk.AutoCAD.DatabaseServices.Line).Length;
+                }
+                else if (dbobj.GetType().Name == "Arc")
+                {
+                    result = (dbobj as Autodesk.AutoCAD.DatabaseServices.Arc).Length;
+                }
+                else if (dbobj.GetType().Name == "Circle")
+                {
+                    result = (dbobj as Autodesk.AutoCAD.DatabaseServices.Circle).Circumference;
+                }
+                return result;
             }
-            else if (dbobj.GetType().Name == "Line")
+            catch (System.Exception ex)
             {
-                result = (dbobj as Autodesk.AutoCAD.DatabaseServices.Line).Length;
+                AcadApp.AcaEd.WriteMessage("ERROR: MarkingCalc().GetLength " + ex + "\n");
             }
-            else if (dbobj.GetType().Name == "Arc")
-            {
-                result = (dbobj as Autodesk.AutoCAD.DatabaseServices.Arc).Length;
-            }
-            else if (dbobj.GetType().Name == "Circle")
-            {
-                result = (dbobj as Autodesk.AutoCAD.DatabaseServices.Circle).Circumference;
-            }
-            return result;
+            return -1.0d;
         }
 
         private Double GetArea(Autodesk.AutoCAD.DatabaseServices.DBObject dbobj)
         {
             Double result = 0.0d;
-
-            if (dbobj.GetType().Name == "Polyline")
+            try
             {
-                result = (dbobj as Autodesk.AutoCAD.DatabaseServices.Polyline).Area;
+                if (dbobj.GetType().Name == "Polyline")
+                {
+                    result = (dbobj as Autodesk.AutoCAD.DatabaseServices.Polyline).Area;
+                }
+                else if (dbobj.GetType().Name == "Circle")
+                {
+                    result = (dbobj as Autodesk.AutoCAD.DatabaseServices.Circle).Area;
+                }
             }
-            else if (dbobj.GetType().Name == "Circle")
+            catch (System.Exception ex)
             {
-                result = (dbobj as Autodesk.AutoCAD.DatabaseServices.Circle).Area;
+                AcadApp.AcaEd.WriteMessage("ERROR: MarkingCalc().GetArea " + ex + "\n");
             }
             return result;
         }
@@ -565,55 +614,90 @@ namespace LufsGenplan
 
         private void btClear_Click(object sender, EventArgs e)
         {
-            if (calculatedData != null)
+            try
             {
-                dataGridResult.DataSource = null;
-                calculatedData.Clear();
+                if (calculatedData != null)
+                {
+                    dataGridResult.DataSource = null;
+                    calculatedData.Clear();
+                }
+                dataGridResult.Refresh();
+                btToExcel.Enabled = false;
+                IsTableEmpty = true;
             }
-            dataGridResult.Refresh();
-            btToExcel.Enabled = false;
-            IsTableEmpty = true;
+            catch (System.Exception ex)
+            {
+                AcadApp.AcaEd.WriteMessage("ERROR: MarkingCalc().btClear_Click " + ex + "\n");
+            }
         }
 
         private void cbCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
-            CurrentCategory = cbCategory.Text;
-            if (rawData != null)
+            try
             {
-                if (!IsTableEmpty)
+                CurrentCategory = cbCategory.Text;
+                if (rawData != null)
                 {
-                    DisplayResult();
+                    if (!IsTableEmpty)
+                    {
+                        DisplayResult();
+                    }
                 }
+            }
+            catch (System.Exception ex)
+            {
+                AcadApp.AcaEd.WriteMessage("ERROR: MarkingCalc().cbCategory_SelectedIndexChanged " + ex + "\n");
             }
         }
 
         private void cbMasht_SelectedIndexChanged(object sender, EventArgs e)
         {
-            CurrentMasht = cbMasht.Text;
-            if (rawData != null)
+            try
             {
-                if (!IsTableEmpty)
+                CurrentMasht = cbMasht.Text;
+                if (rawData != null)
                 {
-                    DisplayResult();
+                    if (!IsTableEmpty)
+                    {
+                        DisplayResult();
+                    }
                 }
+            }
+            catch (System.Exception ex)
+            {
+                AcadApp.AcaEd.WriteMessage("ERROR: MarkingCalc().cbMasht_SelectedIndexChanged " + ex + "\n");
             }
         }
 
         private void btToExcel_Click(object sender, EventArgs e)
         {
-            LufsGenplan.AcadApp.AcaEd.WriteMessage("\nПередача данных в Excel:\n");
+            try
+            {
+                LufsGenplan.AcadApp.AcaEd.WriteMessage("\nПередача данных в Excel:\n");
 
-            //Create filename for the Creating excel file in same folder where placed current drawing file
-            var fileName = LufsGenplan.AcadApp.GetFileName() + ".xlsx";
+                //Create filename for the Creating excel file in same folder where placed current drawing file
+                var fileName = LufsGenplan.AcadApp.GetFileName() + ".xlsx";
 
-            //Write data to the excel application
-            var resFileName = WriteDataToExcelRoadPavenment(ResultToExcelMarkingCalc(calculatedData), fileName, templateName);
-            LufsGenplan.AcadApp.AcaEd.WriteMessage("\nСоздан файл: " + resFileName + "\n");
+                //Write data to the excel application
+                var resFileName = WriteDataToExcelRoadPavenment(ResultToExcelMarkingCalc(calculatedData), fileName, templateName);
+                LufsGenplan.AcadApp.AcaEd.WriteMessage("\nСоздан файл: " + resFileName + "\n");
+            }
+            catch (System.Exception ex)
+            {
+                AcadApp.AcaEd.WriteMessage("ERROR: MarkingCalc().btToExcel_Click " + ex + "\n");
+            }
         }
 
         private void cbLayerUse_SelectedIndexChanged(object sender, EventArgs e)
         {
-            currentLayer = cbLayerUse.Text;
+            try
+            {
+                currentLayer = cbLayerUse.Text;
+            }
+            catch (System.Exception ex)
+            {
+                AcadApp.AcaEd.WriteMessage("ERROR: MarkingCalc().cbLayerUse_SelectedIndexChanged " + ex + "\n");
+            }
         }
 
         #region WriteToExcel
@@ -622,28 +706,43 @@ namespace LufsGenplan
 
         private static void WriteArrayMarkingCalc(int rows, int columns, Microsoft.Office.Interop.Excel.Worksheet worksheet, object[,] data)
         {
-            var startRow = HEADERROWSMarkingCalc;
-            var startCell = worksheet.Cells[startRow + 1, 1] as Microsoft.Office.Interop.Excel.Range; // At excel range start at the 1,1 not the 0,0
-            var endCell = worksheet.Cells[rows + startRow, columns] as Microsoft.Office.Interop.Excel.Range;
-            var writeRange = worksheet.get_Range(startCell, endCell);
-            writeRange.Value2 = data;
+            try
+            {
+                var startRow = HEADERROWSMarkingCalc;
+                var startCell = worksheet.Cells[startRow + 1, 1] as Microsoft.Office.Interop.Excel.Range; // At excel range start at the 1,1 not the 0,0
+                var endCell = worksheet.Cells[rows + startRow, columns] as Microsoft.Office.Interop.Excel.Range;
+                var writeRange = worksheet.get_Range(startCell, endCell);
+                writeRange.Value2 = data;
+            }
+            catch (System.Exception ex)
+            {
+                AcadApp.AcaEd.WriteMessage("ERROR: MarkingCalc().WriteArrayMarkingCalc " + ex + "\n");
+            }
         }
 
         public static object[,] ResultToExcelMarkingCalc(System.Collections.ObjectModel.Collection<RazmData> res)
         {
-            var data = new object[(res.Count + 1), HEADERCOLUMNSMarkingCalc];
-            var count = 0;
-            foreach (var r in res)
+            try
             {
-                data[count, 0] = r.NPP;
-                data[count, 1] = r.RazmDescription; 
-                data[count, 2] = r.RazmType; 
-                data[count, 3] = r.RazmLenght; 
-                data[count, 4] = r.RazmArea;
+                var data = new object[(res.Count + 1), HEADERCOLUMNSMarkingCalc];
+                var count = 0;
+                foreach (var r in res)
+                {
+                    data[count, 0] = r.NPP;
+                    data[count, 1] = r.RazmDescription;
+                    data[count, 2] = r.RazmType;
+                    data[count, 3] = r.RazmLenght;
+                    data[count, 4] = r.RazmArea;
 
-                count += 1;
+                    count += 1;
+                }
+                return data;
             }
-            return data;
+            catch (System.Exception ex)
+            {
+                AcadApp.AcaEd.WriteMessage("ERROR: MarkingCalc().ResultToExcelMarkingCalc " + ex + "\n");
+            }
+            return null;
         }
 
         public static String WriteDataToExcelRoadPavenment(object[,] obData, String fileName, String templateName)

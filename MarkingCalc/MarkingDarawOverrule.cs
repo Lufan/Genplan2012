@@ -19,19 +19,28 @@ namespace LufsGenplan
 {
     class MarkingDarawOverrule : DrawableOverrule
     {
+        static private MarkingDarawOverrule theOverrule = new MarkingDarawOverrule();
+
         private System.Collections.Generic.ICollection<RazmType> LineTypesOfDoubleLines { get; set; }
         private Double Offset { get; set; }
 
-        public MarkingDarawOverrule()
+        private MarkingDarawOverrule()
         {
-            LineTypesOfDoubleLines = null;
-            Offset = 0.0;
         }
 
-        public MarkingDarawOverrule(System.Collections.Generic.ICollection<RazmType> layersOfDoubleLines, Double offset)
+        static public MarkingDarawOverrule GetMarkingDarawOverrule(System.Collections.Generic.ICollection<RazmType> layersOfDoubleLines, Double offset)
         {
-            LineTypesOfDoubleLines = layersOfDoubleLines;
-            Offset = offset;
+            try
+            {
+                theOverrule.LineTypesOfDoubleLines = layersOfDoubleLines;
+                theOverrule.Offset = offset;
+                return theOverrule;
+            }
+            catch (System.Exception ex)
+            {
+                AcadApp.AcaEd.WriteMessage("\nERROR: MarkingDarawOverrule.GetMarkingDarawOverrule " + ex + "\n");
+            }
+            return null;
         }
 
 
@@ -87,7 +96,7 @@ namespace LufsGenplan
                 return true;
         }
 
-        Boolean GetPlineOffset(double offset, Autodesk.AutoCAD.DatabaseServices.Polyline source, WorldDraw wd, Boolean IsOverrideLineType = false)
+        private Boolean GetPlineOffset(double offset, Autodesk.AutoCAD.DatabaseServices.Polyline source, WorldDraw wd, Boolean IsOverrideLineType = false)
         {
             try
             {
