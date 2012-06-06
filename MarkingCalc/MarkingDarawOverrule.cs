@@ -26,6 +26,31 @@ namespace LufsGenplan
 
         private MarkingDarawOverrule()
         {
+            SetCustomFilter();
+        }
+
+        public override bool IsApplicable(RXObject overruledSubject)
+        {
+            try
+            {
+                if (LineTypesOfDoubleLines == null || LineTypesOfDoubleLines.Count == 0)
+                {
+                    return false;
+                }
+                Autodesk.AutoCAD.DatabaseServices.Polyline pln = overruledSubject as Autodesk.AutoCAD.DatabaseServices.Polyline;
+                foreach (var lineType in LineTypesOfDoubleLines)
+                {
+                    if (pln.Linetype == lineType.LineTypeName)
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                AcadApp.AcaEd.WriteMessage("\nERROR: MarkingDarawOverrule.IsApplicable " + ex + "\n");
+            }
+            return false;
         }
 
         static public MarkingDarawOverrule GetMarkingDarawOverrule(System.Collections.Generic.ICollection<RazmType> layersOfDoubleLines, Double offset)
@@ -47,19 +72,19 @@ namespace LufsGenplan
 
         public override bool WorldDraw(Drawable drawable, WorldDraw wd)
         {
+
+            if (LineTypesOfDoubleLines == null || LineTypesOfDoubleLines.Count == 0)
+            {
+                AcadApp.AcaEd.WriteMessage("\nERROR: MarkingDarawOverrule Filter do not work!\n");
+                return base.WorldDraw(drawable, wd);
+            }
+
             try
             {
                 // Cast Drawable to Polyline so we can access its methods and
                 // properties
                 Autodesk.AutoCAD.DatabaseServices.Polyline pln = drawable as Autodesk.AutoCAD.DatabaseServices.Polyline;
 
-                if (LineTypesOfDoubleLines == null || LineTypesOfDoubleLines.Count == 0)
-                {
-                    //Draw as is, without overrule
-                    return base.WorldDraw(drawable, wd);
-                }
-
-                
                 Double scaleFactor = pln.LinetypeScale;
 
                 foreach (var lineType in LineTypesOfDoubleLines)
