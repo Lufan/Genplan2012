@@ -6,7 +6,7 @@ D:\Work\VyrSl\VyrSl\bin\Release\MarkingCalc.dll
 D:\Work\VyrSl\VyrSl\bin\Release\MarkingCalc.pdb
 D:\Work\VyrSl\MarkingCalc\obj\Release\ResolveAssemblyReference.cache
 D:\Work\VyrSl\MarkingCalc\obj\Release\LufsGenplan.MarkingCalc.resources
-D:\Work\VyrSl\MarkingCalc\obj\Release\GenerateResource-ResGen.read.1.tlog
-D:\Work\VyrSl\MarkingCalc\obj\Release\GenerateResource-ResGen.write.1.tlog
 D:\Work\VyrSl\MarkingCalc\obj\Release\MarkingCalc.dll
 D:\Work\VyrSl\MarkingCalc\obj\Release\MarkingCalc.pdb
+D:\Work\VyrSl\MarkingCalc\obj\Release\GenerateResource.read.1.tlog
+D:\Work\VyrSl\MarkingCalc\obj\Release\GenerateResource.write.1.tlog

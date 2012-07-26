@@ -8,7 +8,7 @@ D:\Work\VyrSl\VyrSl\bin\Release\RoadPavenment.dll
 D:\Work\VyrSl\VyrSl\bin\Release\RoadPavenment.pdb
 D:\Work\VyrSl\RoadPavenment\obj\Release\ResolveAssemblyReference.cache
 D:\Work\VyrSl\RoadPavenment\obj\Release\RoadPavenment.RoadPavenment.resources
-D:\Work\VyrSl\RoadPavenment\obj\Release\GenerateResource-ResGen.read.1.tlog
-D:\Work\VyrSl\RoadPavenment\obj\Release\GenerateResource-ResGen.write.1.tlog
 D:\Work\VyrSl\RoadPavenment\obj\Release\RoadPavenment.dll
 D:\Work\VyrSl\RoadPavenment\obj\Release\RoadPavenment.pdb
+D:\Work\VyrSl\RoadPavenment\obj\Release\GenerateResource.read.1.tlog
+D:\Work\VyrSl\RoadPavenment\obj\Release\GenerateResource.write.1.tlog

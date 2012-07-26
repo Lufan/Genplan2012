@@ -14,6 +14,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+using Autodesk.Civil.DatabaseServices;
+using Autodesk.AutoCAD.DatabaseServices;
+
 namespace RoadPavenment
 {
     public partial class RoadPavenment : UserControl, LufsGenplan.ILUFSPlug
@@ -342,8 +345,8 @@ namespace RoadPavenment
         /// <param name="leftBorder">left section border</param>
         /// <param name="rightBorder">right section border</param>
         /// <returns></returns>
-        private static List<float> GetDeltaElevationData(Autodesk.Civil.Land.DatabaseServices.Alignment align, Autodesk.Civil.Land.DatabaseServices.TinSurface surfPr,
-            Autodesk.Civil.Land.DatabaseServices.TinSurface surfEx, Double curPK, Double leftBorder, Double rightBorder)
+        private static List<float> GetDeltaElevationData(Alignment align, TinSurface surfPr,
+            Autodesk.Civil.DatabaseServices.TinSurface surfEx, Double curPK, Double leftBorder, Double rightBorder)
         {
             if (leftBorder == 0.0d && rightBorder == 0.0d)
             {
@@ -396,7 +399,7 @@ namespace RoadPavenment
         ///<param name="curPK">Current PK along alignment</param>
         ///<param name="offset">out parameter - Offset from alignment</param>
         ///<param name="elevation">out parameter - elevation from surface</param>
-        private static void GetElevationAndOffset(Autodesk.Civil.Land.DatabaseServices.Alignment align, Autodesk.Civil.Land.DatabaseServices.TinSurface surf,
+        private static void GetElevationAndOffset(Alignment align, TinSurface surf,
                                             Double minW, Double maxW, Double curPK, out Double offset, out Double elevation)
         {
             var elevat_prev = 0.0d; // The temporary variable to store previous elevation into each step
@@ -814,21 +817,21 @@ namespace RoadPavenment
         
         #region Database event implementation
 
-        public void DbEvent_ObjectAppened_Handler_RoadPavenment(object sender, Autodesk.AutoCAD.DatabaseServices.ObjectEventArgs e)
+        public void DbEvent_ObjectAppened_Handler_RoadPavenment(object sender, ObjectEventArgs e)
         {
             try
             {
-                if (e.DBObject is Autodesk.Civil.Land.DatabaseServices.Alignment)
+                if (e.DBObject is Autodesk.Civil.DatabaseServices.Alignment)
                 {
-                    cbAlignment.Items.Add(new AcadUtils.CbAutocadItem((e.DBObject as Autodesk.Civil.Land.DatabaseServices.Alignment).Name,
-                                                    (e.DBObject as Autodesk.Civil.Land.DatabaseServices.Alignment).ObjectId));
+                    cbAlignment.Items.Add(new AcadUtils.CbAutocadItem((e.DBObject as Alignment).Name,
+                                                    (e.DBObject as Alignment).ObjectId));
                 }
-                else if (e.DBObject is Autodesk.Civil.Land.DatabaseServices.TinSurface)
+                else if (e.DBObject is Autodesk.Civil.DatabaseServices.TinSurface)
                 {
-                    cbSurfEx.Items.Add(new AcadUtils.CbAutocadItem((e.DBObject as Autodesk.Civil.Land.DatabaseServices.TinSurface).Name,
-                                                    (e.DBObject as Autodesk.Civil.Land.DatabaseServices.TinSurface).ObjectId));
-                    cbSurfPr.Items.Add(new AcadUtils.CbAutocadItem((e.DBObject as Autodesk.Civil.Land.DatabaseServices.TinSurface).Name,
-                                                    (e.DBObject as Autodesk.Civil.Land.DatabaseServices.TinSurface).ObjectId));
+                    cbSurfEx.Items.Add(new AcadUtils.CbAutocadItem((e.DBObject as TinSurface).Name,
+                                                    (e.DBObject as TinSurface).ObjectId));
+                    cbSurfPr.Items.Add(new AcadUtils.CbAutocadItem((e.DBObject as TinSurface).Name,
+                                                    (e.DBObject as TinSurface).ObjectId));
                 }
             }
             catch (Exception ex)
@@ -837,14 +840,14 @@ namespace RoadPavenment
             }
         }
 
-        public void DbEvent_ObjectErased_Handler_RoadPavenment(object sender, Autodesk.AutoCAD.DatabaseServices.ObjectErasedEventArgs e)
+        public void DbEvent_ObjectErased_Handler_RoadPavenment(object sender, ObjectErasedEventArgs e)
         {
             try
             {
-                if (e.DBObject is Autodesk.Civil.Land.DatabaseServices.Alignment)
+                if (e.DBObject is Alignment)
                 {
-                    AcadUtils.CbAutocadItem obj = new AcadUtils.CbAutocadItem((e.DBObject as Autodesk.Civil.Land.DatabaseServices.Alignment).Name,
-                                                    (e.DBObject as Autodesk.Civil.Land.DatabaseServices.Alignment).ObjectId);
+                    AcadUtils.CbAutocadItem obj = new AcadUtils.CbAutocadItem((e.DBObject as Alignment).Name,
+                                                    (e.DBObject as Alignment).ObjectId);
                     if (obj == null)
                     {
                         return;
@@ -870,10 +873,10 @@ namespace RoadPavenment
                         }
                     }
                 }
-                else if (e.DBObject is Autodesk.Civil.Land.DatabaseServices.TinSurface)
+                else if (e.DBObject is TinSurface)
                 {
-                    AcadUtils.CbAutocadItem obj = new AcadUtils.CbAutocadItem((e.DBObject as Autodesk.Civil.Land.DatabaseServices.TinSurface).Name,
-                                                    (e.DBObject as Autodesk.Civil.Land.DatabaseServices.TinSurface).ObjectId);
+                    AcadUtils.CbAutocadItem obj = new AcadUtils.CbAutocadItem((e.DBObject as TinSurface).Name,
+                                                    (e.DBObject as TinSurface).ObjectId);
                     if (obj == null)
                     {
                         return;
@@ -929,14 +932,14 @@ namespace RoadPavenment
             }
         }
 
-        public void DbEvent_ObjectModified_Handler_RoadPavenment(object sender, Autodesk.AutoCAD.DatabaseServices.ObjectEventArgs e)
+        public void DbEvent_ObjectModified_Handler_RoadPavenment(object sender, ObjectEventArgs e)
         {
             try
             {
-                if (e.DBObject is Autodesk.Civil.Land.DatabaseServices.Alignment)
+                if (e.DBObject is Alignment)
                 {
-                    AcadUtils.CbAutocadItem obj = new AcadUtils.CbAutocadItem((e.DBObject as Autodesk.Civil.Land.DatabaseServices.Alignment).Name,
-                                                    (e.DBObject as Autodesk.Civil.Land.DatabaseServices.Alignment).ObjectId);
+                    AcadUtils.CbAutocadItem obj = new AcadUtils.CbAutocadItem((e.DBObject as Alignment).Name,
+                                                    (e.DBObject as Alignment).ObjectId);
                     if (obj == null)
                     {
                         return;
@@ -961,10 +964,10 @@ namespace RoadPavenment
                         }
                     }
                 }
-                else if (e.DBObject is Autodesk.Civil.Land.DatabaseServices.TinSurface)
+                else if (e.DBObject is TinSurface)
                 {
-                    AcadUtils.CbAutocadItem obj = new AcadUtils.CbAutocadItem((e.DBObject as Autodesk.Civil.Land.DatabaseServices.TinSurface).Name,
-                                                    (e.DBObject as Autodesk.Civil.Land.DatabaseServices.TinSurface).ObjectId);
+                    AcadUtils.CbAutocadItem obj = new AcadUtils.CbAutocadItem((e.DBObject as TinSurface).Name,
+                                                    (e.DBObject as TinSurface).ObjectId);
                     if (obj == null)
                     {
                         return;

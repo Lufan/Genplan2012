@@ -11,7 +11,7 @@ using System.Text;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.ApplicationServices;
-using Autodesk.Civil.Land.DatabaseServices;
+using Autodesk.Civil.DatabaseServices;
 using Autodesk.Civil;
 using Autodesk.AutoCAD.DatabaseServices;
 
@@ -149,7 +149,7 @@ namespace LufsGenplan
                     var alignments = CivDoc.GetAlignmentIds();
                     foreach (ObjectId aid in alignments)
                     {
-                        var curAlgn = tr.GetObject(aid, OpenMode.ForRead) as Autodesk.Civil.Land.DatabaseServices.Alignment;
+                        var curAlgn = tr.GetObject(aid, OpenMode.ForRead) as Alignment;
                         algnList.Add(new AcadUtils.CbAutocadItem(curAlgn.Name, curAlgn.Id));
                     }
                 }
@@ -175,7 +175,7 @@ namespace LufsGenplan
                     var surfaces = CivDoc.GetSurfaceIds();
                     foreach (ObjectId sid in surfaces)
                     {
-                        var curSurf = tr.GetObject(sid, OpenMode.ForRead) as Autodesk.Civil.Land.DatabaseServices.Surface;
+                        var curSurf = tr.GetObject(sid, OpenMode.ForRead) as Autodesk.Civil.DatabaseServices.Surface;
                         if (curSurf.GetType() == typeof(TinSurface))
                         {
                             surfList.Add(new AcadUtils.CbAutocadItem(curSurf.Name, curSurf.Id));
@@ -348,7 +348,7 @@ namespace LufsGenplan
         /// <returns>TinSurface</returns>
         private static TinSurface GetTinSurfaceByName(String name)
         {
-            Autodesk.Civil.Land.DatabaseServices.Surface curSurf;
+            Autodesk.Civil.DatabaseServices.Surface curSurf;
             using (var tr = AcadApp.StartTransaction())
             {
                 try
@@ -356,8 +356,7 @@ namespace LufsGenplan
                     var surfaces = CivDoc.GetSurfaceIds();
                     foreach (ObjectId sid in surfaces)
                     {
-                        curSurf = tr.GetObject(sid, OpenMode.ForRead) as Autodesk.Civil.Land.
-                                                                         DatabaseServices.Surface;
+                        curSurf = tr.GetObject(sid, OpenMode.ForRead) as Autodesk.Civil.DatabaseServices.Surface;
                         if (curSurf.GetType() == typeof(TinSurface) && curSurf.Name == name)
                         {
                             return curSurf as TinSurface;

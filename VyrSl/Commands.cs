@@ -450,7 +450,7 @@ namespace LufsGenplan
                     string LOADER = asm.Location;
 
                     Microsoft.Win32.RegistryKey autoc = (Microsoft.Win32.Registry.CurrentUser);
-                    Microsoft.Win32.RegistryKey ack = autoc.OpenSubKey(HostApplicationServices.Current.RegistryProductRootKey);
+                    Microsoft.Win32.RegistryKey ack = autoc.OpenSubKey(HostApplicationServices.Current.MachineRegistryProductRootKey);
                     Microsoft.Win32.RegistryKey appk = ack.OpenSubKey("Applications", true);
                     Microsoft.Win32.RegistryKey cur_app = appk.OpenSubKey(sectionName, true);
                     if (cur_app.GetValue("LOADER") as String == LOADER) { 
@@ -476,7 +476,7 @@ namespace LufsGenplan
             string LOADER = asm.Location;
             try {
                 Microsoft.Win32.RegistryKey autoc = (Microsoft.Win32.Registry.CurrentUser);
-                Microsoft.Win32.RegistryKey ack = autoc.OpenSubKey(HostApplicationServices.Current.RegistryProductRootKey);
+                Microsoft.Win32.RegistryKey ack = autoc.OpenSubKey(HostApplicationServices.Current.MachineRegistryProductRootKey);
                 Microsoft.Win32.RegistryKey appk = ack.OpenSubKey("Applications", true);
                 if (appk == null) { appk = ack.CreateSubKey("Applications"); }
                 Microsoft.Win32.RegistryKey cur_app = appk.CreateSubKey(sectionName);
@@ -496,7 +496,7 @@ namespace LufsGenplan
         {
             try {
                 Microsoft.Win32.RegistryKey autoc = (Microsoft.Win32.Registry.CurrentUser);
-                Microsoft.Win32.RegistryKey ack = autoc.OpenSubKey(HostApplicationServices.Current.RegistryProductRootKey);
+                Microsoft.Win32.RegistryKey ack = autoc.OpenSubKey(HostApplicationServices.Current.MachineRegistryProductRootKey);
                 Microsoft.Win32.RegistryKey appk = ack.OpenSubKey("Applications", true);
                 if (appk.OpenSubKey(sectionName) == null) { 
                     return; 

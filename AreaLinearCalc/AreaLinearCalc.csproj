@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AreaLinearCalc</RootNamespace>
     <AssemblyName>AreaLinearCalc</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -32,14 +32,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="acdbmgd, Version=17.1.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="accoremgd, Version=19.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>H:\Проектир\БАД\Credo.usr\подсчет объемов работ\acad2010\acdbmgd.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\AutoCAD Civil 3D 2013\accoremgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="acmgd, Version=17.1.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="acdbmgd, Version=19.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>H:\Проектир\БАД\Credo.usr\подсчет объемов работ\acad2010\acmgd.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\AutoCAD Civil 3D 2013\acdbmgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="acmgd, Version=19.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\Autodesk\AutoCAD Civil 3D 2013\acmgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
